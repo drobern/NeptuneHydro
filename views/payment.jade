@@ -9,6 +9,99 @@ html
   script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js")
   meta(name='description', content='Benbria TEAM')
   script.
+    
+    // Load the Visualization API and the piechart package.
+    google.load('visualization', '1', {'packages':['table', 'corechart']});
+      
+    // Set a callback to run when the Google Visualization API is loaded.
+    google.setOnLoadCallback(drawTable);
+    google.setOnLoadCallback(drawChart);
+    google.setOnLoadCallback(drawPie);
+    google.setOnLoadCallback(drawLine);
+      
+    function drawTable() {
+      var gd = !{JSON.stringify(gd)};
+      console.log(gd); 
+
+      var chart = new google.visualization.DataTable(gd); 
+      
+      if (gd) {
+        var table = new google.visualization.Table(document.getElementById('chart_div'));
+        table.draw(chart, {showRowNumber: false, width: '100%', page:'enable', pageSize: 10, sortColumn: 0, sortAscending: false});
+        var width = "195px";
+      }
+    }
+    
+    function drawChart() {
+
+      var cd = !{JSON.stringify(cd)};
+      console.log(cd); 
+
+      var chart = new google.visualization.DataTable(cd);
+
+      var options = {
+        title: 'Overall Balances',
+        hAxis: {
+          viewWindow: {
+            min: [7, 30, 0],
+            max: [17, 30, 0]
+          }
+        },
+        vAxis: {
+          title: 'Amount (listed in $)'
+        }
+      };
+      
+      if (cd) {
+        var table = new google.visualization.ColumnChart(document.getElementById('column_div'));
+        table.draw(chart, options);
+      }
+
+    }
+
+    function drawPie() {
+
+      var pd = !{JSON.stringify(pd)};
+      console.log(pd); 
+
+      var chart = new google.visualization.DataTable(pd);
+
+      var options = {
+                  title: 'Balance Distribution',
+      };
+      
+      if (pd) {
+        var table = new google.visualization.PieChart(document.getElementById('pie_div'));
+        table.draw(chart, options);
+      }
+
+    }
+
+    function drawLine() {
+
+      var ld = !{JSON.stringify(ld)};
+      console.log(ld); 
+
+      var chart = new google.visualization.DataTable(ld);
+
+      var options = {
+                  title: 'Balance Comparisons',
+      };
+      
+      if (ld) {
+        var table = new google.visualization.LineChart(document.getElementById('line_div'));
+        table.draw(chart, options);
+      }
+
+    }
+
+     $(window).resize(function(){
+      drawTable();
+      drawChart();
+      drawPie();
+      drawLine();
+    });
+    
     console.log("THE DATE: "+!{month});
   body
     .navbar.navbar-inverse.navbar-fixed-top
@@ -23,10 +116,10 @@ html
           ul.nav.navbar-nav.navbar-right
             li
               a(href="index") Dashboard
-            li.active
-              a(href="#") Profiles
             li
-              a(href="payment?month="+month) Payments
+              a(href="profile?month="+month) Profiles
+            li.active
+              a(href="#") Payments
             li
               a(href="#helpModal" data-toggle="modal") Help
           //form.navbar-form.navbar-right
@@ -107,10 +200,10 @@ html
               a(href="index") 
                 span.glyphicon.glyphicon-home  Dashboard
             li
-              a.active(href="#") 
+              a(href="profile?month="+month) 
                 span.glyphicon.glyphicon-user  Profiles
             li
-              a(href="payment?month="+month) 
+              a.active(href="#helpModal" data-toggle="modal") 
                 span.glyphicon.glyphicon-bitcoin  Payments
             li
               a(href="#helpModal" data-toggle="modal")
@@ -121,93 +214,25 @@ html
             .visible-xs
               .button.btn.btn-primary.btn-xs(type="button" data-toggle="offcanvas")
                 i.glyphicon.glyphicon-chevron-left
-          
-          .container-fluid
-            .row
-              .col-md-4
-                h2 User Shares
-              .col-md-5
-                h2 Power Supply Draw
-              .col-md-4
-                table.table.table-striped
-                  tr 
-                    th Name
-                    th Share
-                  tr
-                    td Dave
-                    td %29.785
-                  tr
-                    td Wojtek
-                    td %45.029
-                  tr
-                    td Peter
-                    td %12.593
-                  tr
-                    td Calvin
-                    td %12.593
-              .col-md-4
-                table.table.table-striped
-                  tr 
-                    th Watts(W)
-                    th Kilowatts (KW)
-                  tr
-                    td 1585
-                    td 1.585
-            .row
-              h2 Seasonal Breakdown
-              .col-md-9
-                table.table.table-striped
-                  tr 
-                    th Electricity
-                    th Price (¢/kWh)
-                    th Weekdays
-                    th Weekends/Holidays
-                  tr
-                    td(colspan="4") Winter (Nov 1, 2014 - Apr 30, 2015)
-                  tr
-                    td
-                      img(src="images/chart_green.jpg")
-                      span   Off-Peak
-                    td 7.70¢
-                    td 12:00 AM-07:00 AM, 07:00 PM-12:00 AM
-                    td All Day
-                  tr
-                    td 
-                      img(src="images/chart_yellow.jpg") 
-                      span   Mid-Peak
-                    td 11.40¢
-                    td 11:00 AM-05:00 PM
-                    td Not Applicable
-                  tr
-                    td
-                      img(src="images/chart_red.jpg")
-                      span   On-Peak
-                    td 14.00¢
-                    td 07:00 AM-11:00 AM, 05:00 PM-07:00 PM
-                    td Not Applicable
-                  tr
-                    td(colspan="4") Summer (May 1, 2015 - Oct 31, 2015)
-                  tr
-                    td 
-                      img(src="images/chart_green.jpg")
-                      span   Off-Peak
-                    td 8.00¢
-                    td 12:00 AM-07:00 AM, 07:00 PM-12:00 AM
-                    td All Day
-                  tr
-                    td  
-                      img(src="images/chart_yellow.jpg") 
-                      span   Mid-Peak
-                    td 12.20¢
-                    td 07:00 AM-11:00 AM, 05:00 PM-07:00 PM
-                    td Not Applicable
-                  tr
-                    td
-                      img(src="images/chart_red.jpg")
-                      span   On-Peak    
-                    td 16.10¢
-                    td 11:00 AM-05:00 PM
-                    td Not Applicable
+          h2 Dashboard
+          .row
+            .col-md-4
+              .well.well-lg 
+                h4 Balances
+                div#column_div
+            .col-md-4
+              .well.well-lg 
+                h4 Proportions
+                div#pie_div
+            .col-md-4
+              .well.well-lg  
+                h4 Distribution
+                div#line_div
+            .col-md-12
+                h2.sub-header Balance Chart
+            .col-md-12
+              div#chart_div
+                
     div(id="helpModal" class="modal fade in")
       .modal-dialog
         .modal-content
@@ -229,6 +254,8 @@ html
       });
     });
     
+    
+   
       
 
       

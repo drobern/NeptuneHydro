@@ -70,6 +70,16 @@ td[colspan="4"] {
   background-color: lightblue
 }
 
+#dunce:before {
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  margin-right: 5px;
+  content: "";
+ /* content:url('/images/dunce.png'); */
+ background: url("/images/dunce.png") no-repeat 0 0;
+ background-size: 100%;
+}
 
 
 

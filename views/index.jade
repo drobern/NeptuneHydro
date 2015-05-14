@@ -119,11 +119,9 @@ html
             li
               a(href="profile?month="+month) Profiles
             li
-              a(href="#") Payments
+              a(href="payment?month="+month) Payments
             li
-              a(href="#") Help
-          //form.navbar-form.navbar-right
-            //input.form-control(type="text" placeholder="Search...")
+              a(href="#helpModal" data-toggle="modal") Help
           form.navbar-form.navbar-right.form-inline(action="index" method="get")
             .form-group
               label Name 
@@ -203,10 +201,10 @@ html
               a(href="profile?month="+month) 
                 span.glyphicon.glyphicon-user  Profiles
             li
-              a(href="#") 
+              a(href="payment?month="+month) 
                 span.glyphicon.glyphicon-bitcoin  Payments
             li
-              a(href="#")
+              a(href="#helpModal" data-toggle="modal")
                 span.glyphicon.glyphicon-question-sign  Help
       .main    
         .col-md-10
@@ -234,7 +232,22 @@ html
               div#chart_div
             .col-md-12
               h1 #{name}'s Total for Month = $#{total}
-  script.
+
+  div(id="helpModal" class="modal fade in")
+    .modal-dialog
+      .modal-content
+        .modal-header
+          .button.close(data-dismiss="modal" aria-hidden="true") X
+          .modal-title 
+            center 
+              strong BENBRIATEAM HELP
+        .modal-body
+            span#dunce
+            p If you are here you are in BIG TROUBLE
+            p GO AWAY!
+        .modal-footer
+            button.btn.btn-primary(data-dismiss="modal" aria-hidden="true") Close
+script.
     $(document).ready(function() {
       $('[data-toggle=offcanvas]').click(function() {
         $('.row-offcanvas').toggleClass('active');

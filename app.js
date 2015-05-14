@@ -24,6 +24,20 @@ var mysql = _mysql.createConnection({
     password: MYSQL_PASS,
 });
 
+var interval =  60 * 50 * 50; // secs
+
+setInterval(query, interval);
+  
+function query(){
+  var data = mysql.query('select 1 from hydro', function selectCb(err, results, fields) {
+    if (err) {
+       throw err;
+       response.end();
+    }
+  });
+};
+
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.static(__dirname + '/public'));
@@ -123,6 +137,15 @@ app.get('/profile',function(req,res){
    res.render("profile", {month: month}); 
 });
 
+app.get('/payment',function(req,res){
+  var d = new Date();
+  month = d.getMonth();
+  var done = function(gd, cd, pd, ld) {
+    res.render("payment", {gd: gd, cd: cd, pd: pd, ld: ld, month: month}); 
+  }
+  graphpay(done);
+});
+
 var graphdata = function(name, month, year, done) {
   var graphData = {};
   graphData.cols = [];
@@ -206,6 +229,101 @@ var graphdata = function(name, month, year, done) {
    // console.log("THE PIE: "+JSON.stringify(pieData,null,2,true)); 
    // console.log("THE LINE: "+JSON.stringify(lineData,null,2,true)); 
     done(graphData, chartData, pieData, lineData, total, realmonth);
+  });
+};
+
+var graphpay = function(done) {
+  var graphData = {};
+  graphData.cols = [];
+  graphData.rows = [];
+  var total = 0;
+  var hdate = "";
+  var totaloffPeakCost = 0;
+  var totalmidPeakCost = 0;
+  var totalonPeakCost = 0;
+  var a = 0; var x = 0; var y = 0;
+  graphData.cols[0] = {"date":"","label":"DATE","type":"string"};
+  graphData.cols[1] = {"name":"","label":"NAME","type":"string"};
+  graphData.cols[2] = {"amount":"","label":"PAID","type":"number"};
+  graphData.cols[3] = {"balance":"","label":"BALANCE","type":"number"};
+
+  var chartData = {};
+  chartData.cols = [];
+  chartData.rows = [];
+  chartData.cols[0] = {"name":"","label":"Name","type":"string"};
+  chartData.cols[1] = {"balance":"","label":"Balance","type":"number"};
+
+  var pieData = {};
+  pieData.cols = [];
+  pieData.rows = [];
+  pieData.cols[0] = {"id":"","label":"Name","type":"string"};
+  pieData.cols[1] = {"id":"","label":"Balance","type":"number"};
+
+  var lineData = {};
+  lineData.cols = [];
+  lineData.rows = [];
+  lineData.cols[0] = {"id":"","label":"Month","type":"string"};
+  lineData.cols[1] = {"id":"","label":"Dave","type":"number"};
+  lineData.cols[2] = {"id":"","label":"Wojtek","type":"number"};
+  lineData.cols[3] = {"id":"","label":"Peter","type":"number"};
+  lineData.cols[4] = {"id":"","label":"Calvin","type":"number"};
+  
+  mysql.query('use ' + DATABASE);
+  var data = mysql.query('select * from payment', function selectCb(err, results, fields) {
+    if (err) {
+       throw err;
+       response.end();
+    }
+    for (var i in results) {
+      var payment = results[i];
+      var tdate = moment(payment.date, "DD-MM-YYYY");
+      var date = moment(tdate).format("MMMM Do YYYY");
+      if (payment.date == hdate) {
+        switch(payment.name) {
+          case 'Dave':
+            var dave = payment.balance;
+            break; 
+          case 'Wojtek':
+            var wojtek = payment.balance;
+            break;
+          case 'Peter':
+            var peter = payment.balance;
+            break;
+          case 'Calvin':
+            var calvin = payment.balance;
+            break;
+        } 
+        if (x == 3) {
+          lineData.rows[y] = {"c":[{"v":date,"f":null},{"v":dave,"f":"$"+dave},{"v":wojtek,"f":"$"+wojtek},{"v":peter,"f":"$"+peter},{"v":calvin,"f":"$"+calvin}]};
+          x = 0;
+          y++;
+        } else {
+          x++;
+        }
+      } else {
+        hdate = payment.date;
+        switch(payment.name) {
+          case 'Dave':
+            var dave = payment.balance;
+            break; 
+          case 'Wojtek':
+            var wojtek = payment.balance;
+            break;
+          case 'Peter':
+            var peter = pyament.balance;
+            break;
+          case 'Calvin':
+            var calvin = payment.balance;
+            break;
+        }
+        x++;
+      }
+      graphData.rows[a] = {"c":[{"v":date,"f":null},{"v":payment.name,"f":null},{"v":payment.amount,"f":"$"+payment.amount},{"v":payment.balance,"f":"$"+payment.balance}]};
+      chartData.rows[a] = {"c":[{"v":payment.name,"f":null},{"v":payment.balance,"f":null}]};
+      pieData.rows[a] = {"c":[{"v":payment.name,"f":null},{"v":payment.balance,"f":null}]};
+      a++;
+    }
+    done(graphData, chartData, pieData, lineData);
   });
 };
 
