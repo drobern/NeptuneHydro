@@ -24,6 +24,10 @@ var mysql = _mysql.createConnection({
     password: MYSQL_PASS,
 });
 
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
+app.use(express.static(__dirname + '/public'));
+
 var interval =  60 * 50 * 50; // secs
 
 setInterval(query, interval);
@@ -37,10 +41,6 @@ function query(){
   });
 };
 
-
-app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
-app.use(express.static(__dirname + '/public'));
 function calculateRatio(name) {
   switch(name) {
     case 'Dave':
@@ -133,13 +133,13 @@ app.get('/',function(req,res){
 });
 
 app.get('/profile',function(req,res){
+  console.log("THE MONTH: "+req.query.month)
    month=req.query.month;
    res.render("profile", {month: month}); 
 });
 
 app.get('/payment',function(req,res){
-  var d = new Date();
-  month = d.getMonth();
+  month=req.query.month;
   var done = function(gd, cd, pd, ld) {
     res.render("payment", {gd: gd, cd: cd, pd: pd, ld: ld, month: month}); 
   }
@@ -238,9 +238,6 @@ var graphpay = function(done) {
   graphData.rows = [];
   var total = 0;
   var hdate = "";
-  var totaloffPeakCost = 0;
-  var totalmidPeakCost = 0;
-  var totalonPeakCost = 0;
   var a = 0; var x = 0; var y = 0;
   graphData.cols[0] = {"date":"","label":"DATE","type":"string"};
   graphData.cols[1] = {"name":"","label":"NAME","type":"string"};

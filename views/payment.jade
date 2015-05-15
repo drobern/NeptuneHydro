@@ -126,7 +126,8 @@ html
             //input.form-control(type="text" placeholder="Search...")
           form.navbar-form.navbar-right.form-inline(action="index" method="get")
             .form-group
-              label Name 
+              label Name
+              &#32;
               select(id="name", name="name")
                 option(value="All" selected) Please Select
                 option(value="Dave") Dave
@@ -134,7 +135,9 @@ html
                 option(value="Peter") Peter
                 option(value="Calvin") Calvin
             .form-group
+              &nbsp
               label Month
+              &#32;
               select(id="month", name="month")
                 - if (month == "01")
                     option(value="January" selected) January
@@ -185,11 +188,13 @@ html
                 - else
                     option(value="December") December
             .form-group
-              label Yearh
+              &nbsp
+              label Year
+              &#32;
               select(id="year", name="year")
                 option(value="2015") 2015
                 option(value="2016") 2016
-            &npsb
+            &#32;
             button.btn.btn-primary(type="submit") Submit
     .row-offcanvas.row-offcanvas-left
       .sidebar-offcanvas(id="sidebar")
@@ -232,7 +237,7 @@ html
                 h2.sub-header Balance Chart
             .col-md-12
               div#chart_div
-                
+
     div(id="helpModal" class="modal fade in")
       .modal-dialog
         .modal-content

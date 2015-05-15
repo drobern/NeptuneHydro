@@ -34,6 +34,7 @@ html
           form.navbar-form.navbar-right.form-inline(action="index" method="get")
             .form-group
               label Name 
+              &nbsp
               select(id="name", name="name")
                 option(value="All" selected) Please Select
                 option(value="Dave") Dave
@@ -41,7 +42,9 @@ html
                 option(value="Peter") Peter
                 option(value="Calvin") Calvin
             .form-group
+              &nbsp
               label Month
+              &nbsp
               select(id="month", name="month")
                 - if (month == "01")
                     option(value="January" selected) January
@@ -92,11 +95,13 @@ html
                 - else
                     option(value="December") December
             .form-group
-              label Yearh
+              &nbsp
+              label Year
+              &nbsp
               select(id="year", name="year")
                 option(value="2015") 2015
                 option(value="2016") 2016
-            &npsb
+            &#32;
             button.btn.btn-primary(type="submit") Submit
     .row-offcanvas.row-offcanvas-left
       .sidebar-offcanvas(id="sidebar")

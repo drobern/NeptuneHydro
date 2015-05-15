@@ -67,7 +67,12 @@ body {
 }
 
 td[colspan="4"] {
-  background-color: lightblue
+  background-color: lightblue;
+  padding: 0 4px !important;
+}
+
+label {
+  color: white;
 }
 
 #dunce:before {
