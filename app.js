@@ -264,6 +264,7 @@ var graphpay = function(done) {
   lineData.cols[2] = {"id":"","label":"Wojtek","type":"number"};
   lineData.cols[3] = {"id":"","label":"Peter","type":"number"};
   lineData.cols[4] = {"id":"","label":"Calvin","type":"number"};
+  var dave=0; var wojtek=0; var peter=0; var calvin=0;
   
   mysql.query('use ' + DATABASE);
   var data = mysql.query('select * from payment', function selectCb(err, results, fields) {
@@ -278,16 +279,16 @@ var graphpay = function(done) {
       if (payment.date == hdate) {
         switch(payment.name) {
           case 'Dave':
-            var dave = payment.balance;
+            dave = payment.balance;
             break; 
           case 'Wojtek':
-            var wojtek = payment.balance;
+            wojtek = payment.balance;
             break;
           case 'Peter':
-            var peter = payment.balance;
+            peter = payment.balance;
             break;
           case 'Calvin':
-            var calvin = payment.balance;
+            calvin = payment.balance;
             break;
         } 
         if (x == 3) {
@@ -301,24 +302,43 @@ var graphpay = function(done) {
         hdate = payment.date;
         switch(payment.name) {
           case 'Dave':
-            var dave = payment.balance;
+            dave = payment.balance;
             break; 
           case 'Wojtek':
-            var wojtek = payment.balance;
+            wojtek = payment.balance;
             break;
           case 'Peter':
-            var peter = pyament.balance;
+            peter = pyament.balance;
             break;
           case 'Calvin':
-            var calvin = payment.balance;
+            calvin = payment.balance;
             break;
         }
         x++;
       }
       graphData.rows[a] = {"c":[{"v":date,"f":null},{"v":payment.name,"f":null},{"v":payment.amount,"f":"$"+payment.amount},{"v":payment.balance,"f":"$"+payment.balance}]};
-      chartData.rows[a] = {"c":[{"v":payment.name,"f":null},{"v":payment.balance,"f":null}]};
-      pieData.rows[a] = {"c":[{"v":payment.name,"f":null},{"v":payment.balance,"f":null}]};
       a++;
+    }
+    console.log('Dave: '+dave+' Wojtek: '+wojtek+' Peter: '+peter+' Calvin: '+calvin);
+    for (var i = 0; i < 4; i++) {
+      switch(i) {
+        case 0:
+          chartData.rows[i] = {"c":[{"v":"Dave","f":null},{"v":dave,"f":null}]};
+          pieData.rows[i] = {"c":[{"v":"Dave","f":null},{"v":dave,"f":null}]};
+          break;
+        case 1:
+          chartData.rows[i] = {"c":[{"v":"Wojtek","f":null},{"v":wojtek,"f":null}]};
+          pieData.rows[i] = {"c":[{"v":"Wojtek","f":null},{"v":wojtek,"f":null}]};
+          break;
+        case 2:
+          chartData.rows[i] = {"c":[{"v":"Peter","f":null},{"v":peter,"f":null}]};
+          pieData.rows[i] = {"c":[{"v":"Peter","f":null},{"v":peter,"f":null}]};
+          break;
+        case 3:
+          chartData.rows[i] = {"c":[{"v":"Calvin","f":null},{"v":calvin,"f":null}]};
+          pieData.rows[i] = {"c":[{"v":"Calvin","f":null},{"v":calvin,"f":null}]};
+          break;
+      }
     }
     done(graphData, chartData, pieData, lineData);
   });
