@@ -27,7 +27,7 @@ html
       
       if (gd) {
         var table = new google.visualization.Table(document.getElementById('chart_div'));
-        table.draw(chart, {showRowNumber: false, width: '100%', page:'enable', pageSize: 10, sortColumn: 0, sortAscending: false});
+        table.draw(chart, {showRowNumber: false, width: '100%', page:'enable', pageSize: 10, sortColumn: 0, sortAscending: true});
         var width = "195px";
       }
     }
@@ -181,7 +181,7 @@ html
                     option(value="November" selected) November
                 - else
                     option(value="November") November
-                - if(month == "12")
+                - if(month == "00" || month == "12")
                     option(value="December" selected) December
                 - else
                     option(value="December") December

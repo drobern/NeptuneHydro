@@ -189,6 +189,8 @@ var graphdata = function(name, month, year, done) {
   } else {
     if (month < 10) {
       var realmonth = "0"+month.toString();
+      if (realmonth == "00")
+        realmonth = "12";
     } else {
       var realmonth = month.toString();
     }
@@ -217,7 +219,7 @@ var graphdata = function(name, month, year, done) {
       totalonpeakcost = (parseFloat(totalonpeakcost) + parseFloat(hydro.onpeakcost * ratio)).toFixed(2);
       total = (parseFloat(total) + parseFloat(totalCost)).toFixed(2);
       console.log("TOTAL: "+total+" TOTAL COST: "+totalCost);
-      graphData.rows[a] = {"c":[{"v":date,"f":null},{"v":offpeakusage,"f":offpeakusage+"KW/h"},{"v":offpeakcost,"f":"$"+offpeakcost},{"v":midpeakusage,"f":midpeakusage+"KW/h"},{"v":midpeakcost,"f":"$"+midpeakcost},{"v":onpeakusage,"f":onpeakusage+"KW/h"},{"v":onpeakcost,"f":"$"+onpeakcost},{"v":totalCost,"f":"$"+totalCost}]};
+      graphData.rows[a] = {"c":[{"v":hydro.date,"f":null},{"v":offpeakusage,"f":offpeakusage+"KW/h"},{"v":offpeakcost,"f":"$"+offpeakcost},{"v":midpeakusage,"f":midpeakusage+"KW/h"},{"v":midpeakcost,"f":"$"+midpeakcost},{"v":onpeakusage,"f":onpeakusage+"KW/h"},{"v":onpeakcost,"f":"$"+onpeakcost},{"v":totalCost,"f":"$"+totalCost}]};
       chartData.rows[a] = {"c":[{"v":date,"f":null},{"v":parseFloat(totalCost),"f":null}]};
       lineData.rows[a] = {"c":[{"v":date,"f":null},{"v":offpeakcost,"f":null},{"v":onpeakcost,"f":null},{"v":midpeakcost,"f":null}]};
       a++;
