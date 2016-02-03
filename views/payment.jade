@@ -102,7 +102,8 @@ html
       drawLine();
     });
     
-    console.log("THE DATE: "+!{month});
+    console.log("THE MONTH: "+!{month});
+    console.log("THE YEAR: "+!{year});
   body
     .navbar.navbar-inverse.navbar-fixed-top
       .container-fluid
@@ -193,7 +194,7 @@ html
               &#32;
               select(id="year", name="year")
                 option(value="2015") 2015
-                option(value="2016") 2016
+                option(value="2016" selected) 2016
             &#32;
             button.btn.btn-primary(type="submit") Submit
     .row-offcanvas.row-offcanvas-left
@@ -219,7 +220,20 @@ html
             .visible-xs
               .button.btn.btn-primary.btn-xs(type="button" data-toggle="offcanvas")
                 i.glyphicon.glyphicon-chevron-left
-          h2 Dashboard
+          h2 Dashboard 
+            form.navbar-form.navbar-right.form-inline(action="payment" method="get")
+              .form-group
+                select(id="year", name="year")
+                  - if(year == "2015")
+                      option(value="2015" selected) 2015
+                  - else 
+                      option(value="2015") 2015
+                  - if(year == "2016")
+                      option(value="2016" selected) 2016
+                  - else
+                      option(value="2016") 2016
+              &#32;
+              button.btn.btn-primary(type="submit") Submit
           .row
             .col-md-4
               .well.well-lg 

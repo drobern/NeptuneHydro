@@ -114,7 +114,12 @@ app.get('/index',function(req,res){
     name = "All";
     var d = new Date();
     month = d.getMonth();
-    year = null;
+    year = d.getFullYear();
+    if (month ==0) {
+      year = 2015;
+    } else {
+      y = 2016;
+    }
   }
   var done = function(gd, cd, pd, ld, total, month) {
     console.log ("THE MONTH: "+month);
@@ -129,7 +134,13 @@ app.get('/',function(req,res){
   }
   var d = new Date();
   var m = d.getMonth();
-  graphdata("All", m, null, done);
+  var y = d.getFullYear();
+  if (m ==0) {
+    y = 2015;
+  } else {
+    y = 2016;
+  }
+  graphdata("All", m, y, done);
 });
 
 app.get('/profile',function(req,res){
@@ -139,11 +150,20 @@ app.get('/profile',function(req,res){
 });
 
 app.get('/payment',function(req,res){
-  month=req.query.month;
-  var done = function(gd, cd, pd, ld) {
-    res.render("payment", {gd: gd, cd: cd, pd: pd, ld: ld, month: month}); 
+ // month=req.query.month;
+  var d = new Date();
+  var m = d.getMonth();
+  var month = m;
+  if (req.query.year) {
+    var y = req.query.year;
+  } else {
+    var y = d.getFullYear();
   }
-  graphpay(done);
+  console.log('THE YEAR: '+y+' THE MONTH: '+month);
+  var done = function(gd, cd, pd, ld) {
+    res.render("payment", {gd: gd, cd: cd, pd: pd, ld: ld, month: month, year: y}); 
+  }
+  graphpay(y, done);
 });
 
 var graphdata = function(name, month, year, done) {
@@ -197,7 +217,7 @@ var graphdata = function(name, month, year, done) {
   }
   console.log("NAME: "+name+" MONTH: "+realmonth);
   mysql.query('use ' + DATABASE);
-  var data = mysql.query('select * from hydro where date like "%/'+realmonth+'%"', function selectCb(err, results, fields) {
+  var data = mysql.query('select * from hydro where date like "%/'+realmonth+'/'+year+'%"', function selectCb(err, results, fields) {
     if (err) {
        throw err;
        response.end();
@@ -234,7 +254,7 @@ var graphdata = function(name, month, year, done) {
   });
 };
 
-var graphpay = function(done) {
+var graphpay = function(year, done) {
   var graphData = {};
   graphData.cols = [];
   graphData.rows = [];
@@ -267,9 +287,8 @@ var graphpay = function(done) {
   lineData.cols[3] = {"id":"","label":"Peter","type":"number"};
   lineData.cols[4] = {"id":"","label":"Calvin","type":"number"};
   var dave=0; var wojtek=0; var peter=0; var calvin=0;
-  
   mysql.query('use ' + DATABASE);
-  var data = mysql.query('select * from payment', function selectCb(err, results, fields) {
+  var data = mysql.query('select * from payment where date like "%/'+year+'%"', function selectCb(err, results, fields) {
     if (err) {
        throw err;
        response.end();
