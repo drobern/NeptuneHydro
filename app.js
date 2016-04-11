@@ -329,7 +329,7 @@ var graphpay = function(year, done) {
             wojtek = payment.balance;
             break;
           case 'Peter':
-            peter = pyament.balance;
+            peter = payment.balance;
             break;
           case 'Calvin':
             calvin = payment.balance;
